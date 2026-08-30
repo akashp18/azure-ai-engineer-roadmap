@@ -1,61 +1,61 @@
-# Part 2 Advanced Milestone Project: Async Weather & API Client
+# Part 2 Advanced Milestone Project: Interactive Async Weather CLI
 # Goal: Combine OOP, Async/Await, Env Vars, Error Handling, and Type Hinting!
 
 import os
 import asyncio
 import time
 from dotenv import load_dotenv
-
-# We will use `aiohttp` for asynchronous HTTP requests. 
-# (You may need to run `pip install aiohttp` in your terminal).
 import aiohttp
 
 load_dotenv()
 
-# TODO 1: Define a `WeatherClient` class.
 class WeatherClient:
     
-    # TODO 2: Create the __init__ method. Use type hinting (-> None).
-    # It should read 'AZURE_OPENAI_KEY' from os.getenv(). 
-    # If the key is not found, raise a ValueError("API Key is missing!").
-    # We won't actually use this key for the free weather API, but this is great practice!
     def __init__(self) -> None:
         self.api_key = os.getenv('AZURE_OPENAI_KEY')
         if not self.api_key:
             raise ValueError("API Key is missing!")
+            
+    async def fetch_spell_check(self, query: str) -> list[str]:
+        """Uses Datamuse API to find spelling suggestions for misspelled cities."""
+        url = f"https://api.datamuse.com/words?sp={query}"
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    data = await response.json()
+                    # Return top 3 suggestions
+                    return [item['word'].title() for item in data[:3]]
+        except aiohttp.ClientError:
+            return []
+            
+    async def fetch_coordinates(self, query: str) -> list[dict]:
+        """Fetches coordinates for a given city name using Open-Meteo Geocoding API."""
+        url = f"https://geocoding-api.open-meteo.com/v1/search?name={query}&count=10&language=en&format=json"
         
-    # TODO 3: Create an async method `fetch_weather` that takes `self` and `city: str`.
-    # It should return a `dict` (Type Hinting: -> dict).
-    async def fetch_weather(self, city: str) -> dict:
-        # We will use the free Open-Meteo API (no key required) just to test async requests.
-        # Here are the coordinates for 3 cities:
-        locations = {
-            "New York": "latitude=40.71&longitude=-74.01",
-            "London": "latitude=51.51&longitude=-0.13",
-            "Tokyo": "latitude=35.69&longitude=139.69"
-        }
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    data = await response.json()
+                    return data.get("results", [])
+        except aiohttp.ClientError as e:
+            print(f"Network error while fetching coordinates for {query}: {e}")
+            return []
+
+    async def fetch_weather(self, lat: float, lon: float, location_name: str) -> dict:
+        """Fetches the current weather for exact coordinates."""
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
         
-        # If the city isn't in our dictionary, default to New York.
-        coords = locations.get(city, locations["New York"])
-        url = f"https://api.open-meteo.com/v1/forecast?{coords}&current_weather=true"
-        
-        # TODO 4: Use `aiohttp.ClientSession()` to make a GET request to the URL.
-        # Wrap it in a `try...except` block to catch `aiohttp.ClientError`.
-        # Write your code here:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as response:
                     data = await response.json()
                     temp = data['current_weather']['temperature']
-                    print(f"Weather in {city}: {temp}°C")
+                    print(f"\n🌤️  Weather in {location_name}: {temp}°C\n")
                     return data
         except aiohttp.ClientError as e:
-            print(f"Network error while fetching weather for {city}: {e}")
+            print(f"Network error while fetching weather for {location_name}: {e}")
             return {}
 
-# TODO 5: Create an async `main() -> None` function.
-# Inside, create an instance of `WeatherClient`. 
-# Then use `asyncio.gather()` to fetch the weather for "New York", "London", and "Tokyo" concurrently!
 async def main() -> None:
     try:
         client = WeatherClient()
@@ -63,17 +63,83 @@ async def main() -> None:
         print(f"Error starting client: {e}")
         return
 
-    print("Fetching weather concurrently...\n")
-    start_time = time.time()
-    
-    await asyncio.gather(
-        client.fetch_weather("New York"),
-        client.fetch_weather("London"),
-        client.fetch_weather("Tokyo")
-    )
-    
-    print(f"\nAll fetches completed in {time.time() - start_time:.2f} seconds.")
+    print("=== Welcome to the Intelligent Weather CLI ===")
+    print("Type 'quit' to exit.")
+
+    while True:
+        city = input("\nEnter a city name: ").strip()
+        
+        if city.lower() == 'quit':
+            print("Goodbye!")
+            break
+            
+        if not city:
+            continue
+            
+        print(f"Searching for '{city}'...")
+        results = await client.fetch_coordinates(city)
+        
+        # INTELLIGENT FALLBACK: If no results found, try spell check!
+        if not results:
+            suggestions = await client.fetch_spell_check(city)
+            if suggestions:
+                print(f"❌ Could not find '{city}'. Did you mean:")
+                for idx, sugg in enumerate(suggestions):
+                    print(f"  {idx + 1}) {sugg}")
+                
+                selection = input("\nEnter the number of the correct city (or 'c' to cancel): ").strip()
+                if selection.lower() == 'c':
+                    continue
+                    
+                try:
+                    sel_idx = int(selection) - 1
+                    if 0 <= sel_idx < len(suggestions):
+                        city = suggestions[sel_idx]
+                        print(f"\nSearching for corrected city: '{city}'...")
+                        results = await client.fetch_coordinates(city)
+                        if not results:
+                            print(f"❌ Could not find coordinates for '{city}' either. Please try a major city.")
+                            continue
+                    else:
+                        print("❌ Invalid selection.")
+                        continue
+                except ValueError:
+                    print("❌ Please enter a valid number.")
+                    continue
+            else:
+                print(f"❌ Could not find any cities matching '{city}' and no spelling suggestions were found.")
+                continue
+            
+        # If exactly one result is found, fetch weather immediately
+        if len(results) == 1:
+            location = results[0]
+            name = f"{location.get('name')}, {location.get('admin1', '')} {location.get('country', '')}".strip(', ')
+            await client.fetch_weather(location['latitude'], location['longitude'], name)
+            continue
+            
+        # If multiple results are found, ask the user to clarify
+        print(f"\nFound {len(results)} matches for '{city}'. Did you mean:")
+        for idx, loc in enumerate(results):
+            name = loc.get('name')
+            admin1 = loc.get('admin1', 'N/A')
+            country = loc.get('country', 'N/A')
+            print(f"  {idx + 1}) {name}, {admin1}, {country}")
+            
+        selection = input("\nEnter the number of the correct city (or 'c' to cancel): ").strip()
+        
+        if selection.lower() == 'c':
+            continue
+            
+        try:
+            sel_idx = int(selection) - 1
+            if 0 <= sel_idx < len(results):
+                location = results[sel_idx]
+                name = f"{location.get('name')}, {location.get('admin1', '')} {location.get('country', '')}".strip(', ')
+                await client.fetch_weather(location['latitude'], location['longitude'], name)
+            else:
+                print("❌ Invalid selection.")
+        except ValueError:
+            print("❌ Please enter a valid number.")
 
 if __name__ == "__main__":
-    # Run the main async loop
     asyncio.run(main())
