@@ -23,14 +23,14 @@ We welcome contributions! If you have found a better tutorial, built a cooler pr
 
 *This section tracks my personal progress through the roadmap.*
 
-[██░░░░░░░░░░░░░░░░░░] 10%
+[████░░░░░░░░░░░░░░░░] 20%
 
-**Next milestone:** Advanced Python concepts (Async, SDKs, OOP).
+**Next milestone:** Azure AI Services.
 
 | Area | Status |
 |------|--------|
 | AI-900 | ✅ [View Certification](00-certifications/AI-900.md) |
-| Python | ⬜ In Progress |
+| Python | ✅ Completed |
 | Azure AI | ⬜ ← NEXT |
 | AI-102 | ⬜ |
 | Generative AI | ⬜ |

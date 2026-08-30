@@ -51,7 +51,7 @@ Become comfortable enough with Python and developer tools to build and troublesh
 
 * [x] Learn Asynchronous Programming (asyncio, async/await)
 
-* [ ] Use Type Hinting for cleaner code
+* [x] Use Type Hinting for cleaner code
 
 * [ ] Learn Git basics: clone, branch, commit, push, pull, merge
 
@@ -285,7 +285,7 @@ Core skills:
 | Area          | Status        |
 | ------------- | ------------- |
 | AI-900        | ✅ Completed   |
-| Python        | ⬜ In Progress |
+| Python        | ✅ Completed   |
 | Azure AI      | ⬜ Not started |
 | AI-102        | ⬜ Not started |
 | Generative AI | ⬜ Not started |
