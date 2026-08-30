@@ -43,7 +43,7 @@ Become comfortable enough with Python and developer tools to build and troublesh
 
 * [x] Work with JSON files and REST APIs
 
-* [ ] Understand Object-Oriented Programming (Classes and Methods)
+* [x] Understand Object-Oriented Programming (Classes and Methods)
 
 * [ ] Handle Errors & Exceptions (try/except)
 
