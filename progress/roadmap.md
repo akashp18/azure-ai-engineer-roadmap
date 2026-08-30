@@ -49,7 +49,7 @@ Become comfortable enough with Python and developer tools to build and troublesh
 
 * [x] Manage Environment Variables (python-dotenv)
 
-* [ ] Learn Asynchronous Programming (asyncio, async/await)
+* [x] Learn Asynchronous Programming (asyncio, async/await)
 
 * [ ] Use Type Hinting for cleaner code
 

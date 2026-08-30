@@ -43,7 +43,7 @@ This file records my progress throughout my Azure AI Engineer journey.
 🎯 **Goals**
 - [x] Learn Object-Oriented Programming (Classes, Methods, `__init__`)
 - [x] Practice Error Handling and Environment Variables
-- [ ] Master Asynchronous Python (`async` / `await`)
+- [x] Master Asynchronous Python (`async` / `await`)
 - [ ] Build the Async Weather API Client project
 
 📚 **What I studied**
