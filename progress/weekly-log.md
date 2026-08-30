@@ -4,12 +4,12 @@ This file records my progress throughout my Azure AI Engineer journey.
 
 ## Week 1
 
-**Dates:**
+**Dates:** August 30, 2026 - September 5, 2026
 
 🎯 **Goals**
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ] Complete Microsoft Learn "Take your first steps with Python" modules
+- [ ] Practice basic data structures (lists, dictionaries) and loops
+- [ ] Build a simple Expense Tracker CLI script
 
 📚 **What I studied**
 
@@ -38,12 +38,13 @@ This file records my progress throughout my Azure AI Engineer journey.
 
 ## Week 2
 
-**Dates:**
+**Dates:** September 6, 2026 - September 12, 2026
 
 🎯 **Goals**
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ] Learn Object-Oriented Programming (Classes, Methods, `__init__`)
+- [ ] Practice Error Handling and Environment Variables
+- [ ] Master Asynchronous Python (`async` / `await`)
+- [ ] Build the Async Weather API Client project
 
 📚 **What I studied**
 

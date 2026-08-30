@@ -1,5 +1,8 @@
 # 🗺️ AI Engineer Roadmap
 
+> [!NOTE]
+> **Aspirants:** This is the master checklist. If you fork this repository to start your own journey, simply uncheck any completed boxes and use this file to track your progress!
+
 ## How to Use This Roadmap
 
 This is not only a certification checklist. Each phase has a **learn → practice → build → prove** cycle.
@@ -32,13 +35,23 @@ Become comfortable enough with Python and developer tools to build and troublesh
 
 ### How to Achieve It
 
-* [ ] Complete Python fundamentals lessons and exercises
+* [x] Complete Python fundamentals lessons and exercises
 
-* [ ] Write small Python programs without copying solutions
+* [x] Write small Python programs without copying solutions
 
-* [ ] Practice functions, data structures, and basic OOP
+* [x] Practice functions, data structures, and basic loops
 
-* [ ] Work with JSON files and REST APIs
+* [x] Work with JSON files and REST APIs
+
+* [ ] Understand Object-Oriented Programming (Classes and Methods)
+
+* [ ] Handle Errors & Exceptions (try/except)
+
+* [ ] Manage Environment Variables (python-dotenv)
+
+* [ ] Learn Asynchronous Programming (asyncio, async/await)
+
+* [ ] Use Type Hinting for cleaner code
 
 * [ ] Learn Git basics: clone, branch, commit, push, pull, merge
 
@@ -272,7 +285,7 @@ Core skills:
 | Area          | Status        |
 | ------------- | ------------- |
 | AI-900        | ✅ Completed   |
-| Python        | ⬜ Not started |
+| Python        | ⬜ In Progress |
 | Azure AI      | ⬜ Not started |
 | AI-102        | ⬜ Not started |
 | Generative AI | ⬜ Not started |
