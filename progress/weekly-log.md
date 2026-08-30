@@ -41,8 +41,8 @@ This file records my progress throughout my Azure AI Engineer journey.
 **Dates:** September 6, 2026 - September 12, 2026
 
 🎯 **Goals**
-- [ ] Learn Object-Oriented Programming (Classes, Methods, `__init__`)
-- [ ] Practice Error Handling and Environment Variables
+- [x] Learn Object-Oriented Programming (Classes, Methods, `__init__`)
+- [x] Practice Error Handling and Environment Variables
 - [ ] Master Asynchronous Python (`async` / `await`)
 - [ ] Build the Async Weather API Client project
 

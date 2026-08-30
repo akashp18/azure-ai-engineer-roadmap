@@ -45,9 +45,9 @@ Become comfortable enough with Python and developer tools to build and troublesh
 
 * [x] Understand Object-Oriented Programming (Classes and Methods)
 
-* [ ] Handle Errors & Exceptions (try/except)
+* [x] Handle Errors & Exceptions (try/except)
 
-* [ ] Manage Environment Variables (python-dotenv)
+* [x] Manage Environment Variables (python-dotenv)
 
 * [ ] Learn Asynchronous Programming (asyncio, async/await)
 
